@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+
+
+    <ul class="mdc-list" aria-orientation="vertical">
+    <li class="mdc-list-item">
+      <span class="mdc-list-item__text">Single-line item</span>
+      <span class="mdc-list-item__meta material-icons" arial-hidden="true"></span>
+      <button data-mdc-auto-init="MDCIconButtonToggle" id="add-to-favorites"
+      class="mdc-icon-button"
+      aria-label="Add to favorites"
+      aria-hidden="true"
+      aria-pressed="false">
+      <i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">favorite</i>
+      <i class="material-icons mdc-icon-button__icon">favorite_border</i>
+    </button>
+    </li>
+    <li class="mdc-list-item">
+      <span class="mdc-list-item__text">Single-line item</span>
+      <span class="mdc-list-item__meta material-icons" arial-hidden="true"></span>
+      <button data-mdc-auto-init="MDCIconButtonToggle" id="add-to-favorites"
+      class="mdc-icon-button"
+      aria-label="Add to favorites"
+      aria-hidden="true"
+      aria-pressed="false">
+      <i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">favorite</i>
+      <i class="material-icons mdc-icon-button__icon">favorite_border</i>
+    </button>
+    </li>
+    <li class="mdc-list-item">
+      <span class="mdc-list-item__text">Single-line item</span>
+      <span class="mdc-list-item__meta material-icons" arial-hidden="true"></span>
+      <button data-mdc-auto-init="MDCIconButtonToggle" id="add-to-favorites"
+      class="mdc-icon-button"
+      aria-label="Add to favorites"
+      aria-hidden="true"
+      aria-pressed="false">
+      <i class="material-icons mdc-icon-button__icon mdc-icon-button__icon--on">favorite</i>
+      <i class="material-icons mdc-icon-button__icon">favorite_border</i>
+    </button>
+    </li>
+  </ul>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+
+
+    <!-- at the bottom of the page -->
+    <script type="text/javascript">
+      window.mdc.autoInit();
+
+
+
+    document.getElementById("add-to-favorites").addEventListener('MDCIconButtonToggle:change', ({detail}) => {
+      console.log(detail);
+    });
+
+      $("button").on("click", function(e) {
+      
+        if ($(this).find("i.mdc-icon-button__icon--on").css("display") == "none") {
+          console.log("it's off");
+        } else {
+          console.log("it's on");
+        }
+      });
+
+
+
+
+
+    </script>
+
+
+
+
+  </body>
+</html>
