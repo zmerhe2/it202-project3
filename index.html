@@ -9,7 +9,7 @@
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-      max-width: 500px;
+      max-width: 750px;
       width: 50%;
       max-height: 500px;
       height: 80%;
@@ -22,6 +22,36 @@
         padding: 0;
       }
     </style>
+
+
+    <!-- Include Dexie -->
+      <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+
+
+
+      <script>
+          //
+          // Define your database
+          //
+          var db = new Dexie("favorites_database");
+          db.version(1).stores({
+              favorites: 'name,address'
+          });
+
+          //
+          // Put some data into it
+          //
+          db.favorites.put({name: "Dave", shoeSize: 9.5, city: "Chicago" }).catch(function(error) {
+             //
+             // Finally don't forget to catch any error
+             // that could have happened anywhere in the
+             // code blocks above.
+             //
+             alert ("Ooops: " + error);
+          });
+      </script>
+
+
 
 
 
@@ -43,9 +73,7 @@
 		 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		 <div class="container">
       <ul class="mdc-list" aria-orientation="vertical">
-          
-          
-            
+ 
           <li class="mdc-list-item">
             <div class="row">
               
@@ -69,18 +97,6 @@
 
 
 
-<!--</div>-->
-
-<div class="container">
-
-    <div class="col-sm">
-      <h3> Library Name:</h3>
-    </div>
-
-    
-  </div>
-</div>
-
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -101,7 +117,14 @@
       $("button").on("click", function(e) {
       
         if ($(this).find("i.mdc-icon-button__icon--on").css("display") == "none") {
-          console.log("it's off");
+          db.favorites.put({name: v.name_, address: v.address}).catch(function(error) {
+             //
+             // Finally don't forget to catch any error
+             // that could have happened anywhere in the
+             // code blocks above.
+             //
+             alert ("Ooops: " + error);
+          });
         } else {
           console.log("it's on");
         }
@@ -120,19 +143,27 @@
             console.log(response);
             var row = $("<div>").addClass("row");
 
+            //Outputs name & address of each library into list view
             $.each(response, function(i,v) {
                 console.log(i,v);
                 var cell = $("<div>");
-                cell.addClass("col-sm");
-                cell.html("<br>" + v.address + "<br>" + v.name_  );
+                cell.addClass("mdc-list-item");
+                cell.html("<br>" + v.name_ + "<br>" + v.address + "");
                 
-                
+                //cell.find("</span>").html("<button data-mdc-auto-init\"MDCIconButtonToggle\" id=\"add-to-favorites\" class=\"mdc-icon-button\" aria-label");
+
+
+
+                //clone.find("#COL2").html("<button data-mdc-auto-init\"MDCIconButtonToggle\" id=\"add-to-favorites\" class=\"mdc-icon-button\" aria-label");
+                //console.log(clone);
+                //$("#results").append(clone);
+
                 row.append(cell);
                 
-                if (row.find("div").length == 3) {
-                  $(".container").append(row);
-                  row = $("<div>").addClass("row");
-                }            
+                //if (row.find("div").length == 3) {
+                  //$(".container").append(row);
+                  //row = $("<div>").addClass("row");
+                //}            
             });
 
             if (row.find("div").length != 0) {
@@ -158,22 +189,21 @@
 
 
       function initMap() {
-        var chicago = {lat: 41.8781, lng: -87.6298};
+        var user = {lat: 41.8781, lng: -87.6298};
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 11,
-          center: chicago
+          center: user
         });
 
         $.ajax({
               url: "https://data.cityofchicago.org/resource/psqp-6rmg.json",
               type: "GET",
               data: {
-                "$limit" : 50
+                "$limit" : 100
               }
           }).done(function(data) {
             //alert("Retrieved " + data.length + " records from the dataset!");
             console.log(data);
-
 
                 /*$.each(response, function(i,v) {
                 console.log(i,v);
@@ -206,7 +236,37 @@
 
           });
 
+
+           // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
       }
+      }
+
+
     </script>
     
     
